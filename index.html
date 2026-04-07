@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1A1A2E">
+<title>Have You Ever...? – Grade 3 ESL Lesson</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── ANDROID SMARTBOARD TOUCH OPTIMIZATIONS ── */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ── LOCATION BANNER ── */
+  .location-banner {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 2px solid rgba(253,216,53,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 6px 20px;
+    flex-wrap: wrap;
+  }
+  .loc-part {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(12px, 1.5vw, 16px);
+    color: rgba(255,255,255,0.75);
+    white-space: nowrap;
+  }
+  .loc-sep {
+    color: rgba(253,216,53,0.5);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .loc-highlight {
+    color: #FDD835;
+    font-weight: 900;
+  }
+  .BANNER_HEIGHT { height: 34px; } /* spacer */
+
+  :root {
+    --sky:    #1565C0;
+    --sun:    #FDD835;
+    --grass:  #2E7D32;
+    --coral:  #E53935;
+    --purple: #6A1B9A;
+    --mint:   #00897B;
+    --orange: #E65100;
+    --white:  #FFFFFF;
+    --ink:    #1A1A2E;
+    --light:  #F0F4FF;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--ink);
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+    touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── SLIDE SHELL ── */
+  .deck { position: relative; width: 100%; height: 100vh; padding-top: 34px; }
+
+  .slide {
+    display: none;
+    position: absolute;
+    top: 34px; left: 0; right: 0; bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 72px 0;
+    overflow: hidden;
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  .slide.active { display: flex; }
+
+  /* ── SLIDE HEADERS ── */
+  .slide-header {
+    width: 100%;
+    padding: 18px 36px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .slide-icon {
+    font-size: 44px;
+    line-height: 1;
+  }
+  .slide-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(28px, 4vw, 46px);
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .slide-subtitle {
+    font-size: clamp(15px, 1.8vw, 20px);
+    color: rgba(255,255,255,0.75);
+    margin-top: 2px;
+    font-weight: 700;
+  }
+  .slide-num {
+    margin-left: auto;
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 900;
+    border-radius: 50%;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── SLIDE BODY ── */
+  .slide-body {
+    flex: 1;
+    width: 100%;
+    padding: 10px 36px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+  }
+
+  /* ══════════════════════════════
+     SLIDE 1 – TIMELINE
+  ══════════════════════════════ */
+  #s1 { background: linear-gradient(160deg, #0d2b7a 0%, #1a4db5 60%, #0d2b7a 100%); }
+  #s1 .slide-header { background: rgba(0,0,0,0.25); }
+
+  .timeline-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding-bottom: 10px;
+  }
+  .tl-label-row {
+    display: flex;
+    width: 100%;
+    max-width: 860px;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  .tl-label {
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 900;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+  }
+  .tl-bar {
+    width: 100%;
+    max-width: 860px;
+    height: 18px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    position: relative;
+    overflow: visible;
+  }
+  .tl-fill {
+    height: 100%;
+    width: 75%;
+    background: linear-gradient(90deg, #FDD835, #FF8F00);
+    border-radius: 20px;
+    position: relative;
+  }
+  .tl-dot {
+    position: absolute;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 4px solid var(--white);
+    display: flex; align-items: center; justify-content: center;
+    top: 50%; transform: translate(-50%, -50%);
+  }
+  .tl-dot.start { left: 0; background: #FDD835; }
+  .tl-dot.now   { right: -17px; background: #E53935; border-color: #FF8A80; box-shadow: 0 0 0 6px rgba(229,57,53,0.3); }
+  .tl-now-label {
+    position: absolute;
+    right: -17px;
+    top: 28px;
+    transform: translateX(-50%);
+    font-size: 13px; font-weight: 900;
+    color: #FF8A80;
+    white-space: nowrap;
+  }
+
+  .big-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 860px;
+  }
+  .big-card {
+    background: rgba(255,255,255,0.12);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 18px;
+    padding: 18px 14px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .big-card .emoji { font-size: 38px; display: block; margin-bottom: 8px; }
+  .big-card .ctitle {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(16px, 2.2vw, 22px);
+    color: var(--white);
+  }
+  .big-card .csub {
+    font-size: clamp(12px, 1.4vw, 15px);
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+  }
+
+  .key-sentence {
+    background: rgba(253,216,53,0.18);
+    border: 3px solid #FDD835;
+    border-radius: 16px;
+    padding: 14px 24px;
+    width: 100%;
+    max-width: 860px;
+    text-align: center;
+  }
+  .key-sentence p {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(18px, 2.8vw, 30px);
+    color: #FDD835;
+  }
+  .key-sentence small {
+    font-size: clamp(13px, 1.5vw, 16px);
+    color: rgba(255,255,255,0.75);
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════
+     SLIDE 2 – MAGIC FORMULA
+  ══════════════════════════════ */
+  #s2 { background: linear-gradient(160deg, #1b0040 0%, #4a148c 60%, #1b0040 100%); }
+  #s2 .slide-header { background: rgba(0,0,0,0.3); }
+
+  .formula-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  .fbox {
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-align: center;
+    flex: 1;
+    max-width: 200px;
+    min-height: 110px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .fbox .ftop { font-size: clamp(26px, 3.5vw, 40px); font-family: 'Fredoka One', sans-serif; }
+  .fbox .fbot { font-size: clamp(12px, 1.4vw, 14px); font-weight: 900; margin-top: 4px; }
+  .fbox.sub   { background: #E3F2FD; }  .fbox.sub   .ftop { color: #1565C0; } .fbox.sub   .fbot { color: #1565C0; }
+  .fbox.have  { background: #FFF9C4; }  .fbox.have  .ftop { color: #F57F17; } .fbox.have  .fbot { color: #F57F17; }
+  .fbox.verb  { background: #E8F5E9; }  .fbox.verb  .ftop { color: #2E7D32; } .fbox.verb  .fbot { color: #2E7D32; }
+  .plus { font-family: 'Fredoka One', sans-serif; font-size: 36px; color: rgba(255,255,255,0.6); flex-shrink: 0; }
+
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+  .ex-box {
+    background: rgba(255,255,255,0.10);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    padding: 14px 18px;
+  }
+  .ex-box .ex-tag {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .ex-box .ex-sent {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--white);
+  }
+  .ex-box.aff  { border-color: #A5D6A7; } .ex-box.aff  .ex-tag { color: #A5D6A7; }
+  .ex-box.neg  { border-color: #EF9A9A; } .ex-box.neg  .ex-tag { color: #EF9A9A; }
+  .ex-box.qst  { border-color: #90CAF9; } .ex-box.qst  .ex-tag { color: #90CAF9; }
+
+  .tip-strip {
+    background: rgba(255,255,255,0.10);
+    border-left: 5px solid #CE93D8;
+    border-radius: 10px;
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .tip-strip .ti { font-size: 26px; }
+  .tip-strip p { font-size: clamp(13px, 1.6vw, 17px); color: rgba(255,255,255,0.85); font-weight: 700; }
+  .tip-strip strong { color: #CE93D8; }
+
+  /* ══════════════════════════════
+     SLIDE 3 – HAVE vs HAS
+  ══════════════════════════════ */
+  #s3 { background: linear-gradient(160deg, #004d40 0%, #00796b 60%, #004d40 100%); }
+  #s3 .slide-header { background: rgba(0,0,0,0.3); }
+
+  .hh-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 14px;
+    width: 100%;
+    align-items: start;
+  }
+  .hh-col {
+    border-radius: 20px;
+    padding: 20px 16px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .hh-col.have-col { background: rgba(253,216,53,0.15); border: 3px solid #FDD835; }
+  .hh-col.has-col  { background: rgba(244,67,54,0.15);  border: 3px solid #EF5350; }
+  .hh-head {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(30px, 4vw, 50px);
+    text-align: center;
+    border-radius: 12px;
+    padding: 8px 0;
+  }
+  .have-col .hh-head { background: rgba(253,216,53,0.25); color: #FDD835; }
+  .has-col  .hh-head { background: rgba(244,67,54,0.25);  color: #EF5350; }
+  .pronoun-btn {
+    border-radius: 12px;
+    padding: 13px 10px;
+    text-align: center;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(20px, 2.5vw, 30px);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .have-col .pronoun-btn { background: rgba(253,216,53,0.18); color: #FFF176; border: 2px solid rgba(253,216,53,0.4); }
+  .has-col  .pronoun-btn { background: rgba(244,67,54,0.18);  color: #FFCDD2; border: 2px solid rgba(244,67,54,0.4); }
+  .pronoun-btn .pemo { font-size: 26px; }
+  .vs-center {
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 30px;
+  }
+  .vs-badge {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 22px; color: var(--white);
+  }
+  .hh-examples {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .hh-ex { display: flex; flex-direction: column; }
+  .hh-ex .hl { font-size: clamp(12px,1.3vw,14px); font-weight:900; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px; }
+  .hh-ex .hs { font-family:'Fredoka One',sans-serif; font-size:clamp(15px,1.8vw,20px); color:var(--white); }
+  .hh-ex.ye .hl { color:#FDD835; }
+  .hh-ex.re .hl { color:#EF5350; }
+
+  /* ══════════════════════════════
+     SLIDE 4 – VERB GALLERY
+  ══════════════════════════════ */
+  #s4 { background: linear-gradient(160deg, #3e2723 0%, #bf360c 60%, #3e2723 100%); }
+  #s4 .slide-header { background: rgba(0,0,0,0.3); }
+
+  .verb-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+  .verb-card {
+    background: rgba(255,255,255,0.10);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 18px;
+    padding: 16px 10px;
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    transition: transform 0.15s;
+  }
+  .verb-card:active { transform: scale(0.96); }
+  .verb-card .vemo { font-size: clamp(28px, 3.5vw, 42px); }
+  .verb-card .vbase {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(16px, 2vw, 22px);
+    color: rgba(255,255,255,0.6);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,200,100,0.5);
+  }
+  .verb-card .varrow { font-size: 20px; color: rgba(255,200,100,0.7); }
+  .verb-card .ved {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(18px, 2.4vw, 28px);
+    color: #FFC107;
+    background: rgba(255,193,7,0.15);
+    border: 2px solid rgba(255,193,7,0.4);
+    border-radius: 10px;
+    padding: 4px 14px;
+    width: 100%;
+  }
+  .verb-card .vrule {
+    font-size: clamp(10px, 1.2vw, 12px);
+    color: rgba(255,255,255,0.5);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .rule-boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+  .rule-box {
+    border-radius: 14px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .rule-box .rb-rule { font-size: clamp(13px,1.5vw,16px); font-weight:900; margin-bottom:6px; }
+  .rule-box .rb-ex { font-family:'Fredoka One',sans-serif; font-size:clamp(14px,1.8vw,19px); }
+  .rule-box.r1 { background:rgba(66,165,245,0.2); border:2px solid #42A5F5; }
+  .rule-box.r1 .rb-rule { color:#90CAF9; } .rule-box.r1 .rb-ex { color:#BBDEFB; }
+  .rule-box.r2 { background:rgba(102,187,106,0.2); border:2px solid #66BB6A; }
+  .rule-box.r2 .rb-rule { color:#A5D6A7; } .rule-box.r2 .rb-ex { color:#C8E6C9; }
+  .rule-box.r3 { background:rgba(255,167,38,0.2); border:2px solid #FFA726; }
+  .rule-box.r3 .rb-rule { color:#FFCC02; } .rule-box.r3 .rb-ex { color:#FFF3E0; }
+
+  /* ══════════════════════════════
+     SLIDE 5 – QUESTION FORMATION
+  ══════════════════════════════ */
+  #s5 { background: linear-gradient(160deg, #1a237e 0%, #283593 60%, #1a237e 100%); }
+  #s5 .slide-header { background: rgba(0,0,0,0.3); }
+
+  .q-formula {
+    background: rgba(255,255,255,0.10);
+    border: 3px solid #90CAF9;
+    border-radius: 20px;
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; flex-wrap: nowrap;
+    width: 100%;
+  }
+  .qf-box {
+    border-radius: 12px;
+    padding: 12px 16px;
+    text-align: center;
+    flex: 1;
+  }
+  .qf-box .qfbig { font-family:'Fredoka One',sans-serif; font-size:clamp(18px,2.5vw,30px); }
+  .qf-box .qfsm  { font-size:clamp(11px,1.2vw,13px); font-weight:900; margin-top:4px; }
+  .qf-box.q1 { background:rgba(244,67,54,0.2); }  .qf-box.q1 .qfbig { color:#EF9A9A; } .qf-box.q1 .qfsm { color:#EF9A9A; }
+  .qf-box.q2 { background:rgba(253,216,53,0.2); } .qf-box.q2 .qfbig { color:#FFF176; } .qf-box.q2 .qfsm { color:#FFF176; }
+  .qf-box.q3 { background:rgba(102,187,106,0.2); }.qf-box.q3 .qfbig { color:#A5D6A7; } .qf-box.q3 .qfsm { color:#A5D6A7; }
+  .qf-box.q4 { background:rgba(66,165,245,0.2); } .qf-box.q4 .qfbig { color:#90CAF9; } .qf-box.q4 .qfsm { color:#90CAF9; }
+  .qf-box.q5 { background:rgba(206,147,216,0.2); }.qf-box.q5 .qfbig { color:#CE93D8; } .qf-box.q5 .qfsm { color:#CE93D8; }
+  .q-plus { font-family:'Fredoka One',sans-serif; font-size:28px; color:rgba(255,255,255,0.5); flex-shrink:0; }
+
+  .answer-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+  }
+  .ans-card {
+    border-radius: 18px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .ans-card.yes { background: rgba(46,125,50,0.25); border: 3px solid #66BB6A; }
+  .ans-card.no  { background: rgba(198,40,40,0.25); border: 3px solid #EF5350; }
+  .ans-card .tick { font-size: 38px; }
+  .ans-card .atxt {}
+  .ans-card .atxt .al { font-size:clamp(11px,1.2vw,13px); font-weight:900; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .ans-card.yes .atxt .al { color:#A5D6A7; }
+  .ans-card.no  .atxt .al { color:#EF9A9A; }
+  .ans-card .atxt .as { font-family:'Fredoka One',sans-serif; font-size:clamp(18px,2.5vw,30px); color:var(--white); }
+
+  .q-examples {
+    display: grid; grid-template-columns: repeat(3,1fr); gap:10px; width:100%;
+  }
+  .q-ex {
+    background:rgba(255,255,255,0.08);
+    border:2px solid rgba(255,255,255,0.2);
+    border-radius:12px; padding:12px 14px;
+    text-align:center;
+  }
+  .q-ex .qe-q { font-size:clamp(13px,1.5vw,16px); color:rgba(255,255,255,0.65); margin-bottom:4px; font-weight:700; }
+  .q-ex .qe-a { font-family:'Fredoka One',sans-serif; font-size:clamp(14px,1.8vw,20px); color:var(--white); }
+
+  /* ══════════════════════════════
+     SLIDE 6 – PRACTICE ZONE
+  ══════════════════════════════ */
+  #s6 { background: linear-gradient(160deg, #1b5e20 0%, #388e3c 60%, #1b5e20 100%); }
+  #s6 .slide-header { background: rgba(0,0,0,0.3); }
+
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    flex: 1;
+  }
+  .pbox {
+    background: rgba(255,255,255,0.10);
+    border: 3px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 20px 22px;
+    display: flex; flex-direction: column; gap: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pbox:active { transform: scale(0.98); }
+  .pbox.revealed { border-color: #A5D6A7; background: rgba(46,125,50,0.25); }
+  .pbox-num {
+    font-size: 13px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: 1px; color: rgba(255,255,255,0.5);
+  }
+  .pbox-q {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--white);
+  }
+  .pbox-q span.blank {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border-bottom: 3px solid rgba(255,255,255,0.5);
+    min-width: 80px; padding: 0 10px;
+    border-radius: 6px;
+  }
+  .reveal-zone {
+    margin-top: 4px;
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .reveal-zone.hidden-ans {
+    background: rgba(255,255,255,0.08);
+    border: 2px dashed rgba(255,255,255,0.3);
+    justify-content: center;
+    cursor: pointer;
+  }
+  .reveal-zone.hidden-ans .tap-hint {
+    font-size: clamp(14px,1.6vw,18px); font-weight:900;
+    color: rgba(255,255,255,0.5);
+  }
+  .reveal-zone.show-ans {
+    background: rgba(253,216,53,0.15);
+    border: 2px solid rgba(253,216,53,0.5);
+  }
+  .reveal-zone.show-ans .ans-label {
+    font-size:12px; font-weight:900; color:#FDD835; text-transform:uppercase; letter-spacing:1px; flex-shrink:0;
+  }
+  .reveal-zone.show-ans .ans-text {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(18px,2.3vw,26px);
+    color: #FDD835;
+  }
+  .tap-icon {
+    font-size: 22px;
+  }
+
+  /* ══════════════════════════════
+     SLIDE 7 – TAP CHALLENGE
+  ══════════════════════════════ */
+  #s7 { background: linear-gradient(160deg, #0d1b3e 0%, #1a3a6b 60%, #0d1b3e 100%); }
+  #s7 .slide-header { background: rgba(0,0,0,0.4); }
+
+  .challenge-wrap {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 20px; width: 100%; max-width: 900px;
+    align-self: center;
+  }
+  .challenge-progress {
+    display: flex; gap: 10px; align-items: center;
+  }
+  .cp-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: background 0.3s, transform 0.2s;
+  }
+  .cp-dot.done  { background: #66BB6A; border-color: #66BB6A; transform: scale(1.2); }
+  .cp-dot.wrong { background: #EF5350; border-color: #EF5350; transform: scale(1.2); }
+  .cp-dot.curr  { background: #FDD835; border-color: #FDD835; transform: scale(1.3); }
+
+  .challenge-card {
+    background: rgba(255,255,255,0.08);
+    border: 3px solid rgba(255,255,255,0.2);
+    border-radius: 28px;
+    padding: 28px 36px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    min-height: 130px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  }
+  .challenge-emoji { font-size: clamp(38px, 5vw, 56px); line-height: 1; }
+  .challenge-q {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(22px, 3.2vw, 38px);
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .challenge-q .gap {
+    display: inline-block;
+    background: rgba(253,216,53,0.2);
+    border-bottom: 4px solid #FDD835;
+    border-radius: 8px;
+    min-width: 110px;
+    padding: 0 14px;
+    color: #FDD835;
+    font-style: italic;
+  }
+  .challenge-feedback {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(18px, 2.4vw, 28px);
+    min-height: 38px;
+    transition: opacity 0.3s;
+  }
+
+  .options-row {
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    width: 100%;
+  }
+  .opt-btn {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(22px, 3vw, 36px);
+    border-radius: 20px;
+    border: 3px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+    padding: 18px 40px;
+    cursor: pointer;
+    transition: transform 0.12s, background 0.15s, border-color 0.15s;
+    touch-action: manipulation;
+    min-width: 150px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .opt-btn:active { transform: scale(0.94); }
+  .opt-btn.correct { background: rgba(46,125,50,0.55); border-color: #66BB6A; color: #C8E6C9; }
+  .opt-btn.wrong   { background: rgba(198,40,40,0.55);  border-color: #EF5350; color: #FFCDD2; }
+  .opt-btn:disabled { cursor: default; }
+
+  .challenge-next {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(18px, 2.2vw, 26px);
+    background: #FDD835;
+    color: #1A1A2E;
+    border: none;
+    border-radius: 16px;
+    padding: 14px 48px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s, opacity 0.2s;
+    display: none;
+  }
+  .challenge-next:active { transform: scale(0.96); }
+
+  .challenge-score {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: #FDD835;
+    text-align: center;
+  }
+  .challenge-score-sub {
+    font-size: clamp(16px, 2vw, 22px);
+    color: rgba(255,255,255,0.7);
+    font-weight: 700;
+    text-align: center;
+  }
+  .replay-btn {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(18px, 2.2vw, 26px);
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.35);
+    color: var(--white);
+    border-radius: 16px;
+    padding: 14px 44px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s;
+  }
+  .replay-btn:active { transform: scale(0.96); }
+
+  /* ══════════════════════════════
+     NAVIGATION BAR
+  ══════════════════════════════ */
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 72px;
+    background: rgba(0,0,0,0.90);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+    z-index: 999;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    gap: 12px;
+  }
+  .nav-btn {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 14px;
+    color: var(--white);
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(17px, 2vw, 22px);
+    padding: 0 28px;
+    height: 52px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+    touch-action: manipulation;
+    min-width: 120px;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-btn:active { background: rgba(255,255,255,0.30); transform: scale(0.96); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+
+  .nav-dots {
+    display: flex; gap: 10px; align-items: center; flex: 1; justify-content: center;
+    flex-wrap: wrap;
+  }
+  /* Larger invisible touch target around each dot */
+  .nav-dot-wrap {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.28);
+    transition: background 0.2s, transform 0.2s;
+    pointer-events: none;
+  }
+  .nav-dot-wrap.active .nav-dot {
+    background: var(--sun);
+    transform: scale(1.5);
+  }
+
+  /* ── TRANSITION ── */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translate3d(30px,0,0); }
+    to   { opacity: 1; transform: translate3d(0,0,0); }
+  }
+  .slide.active { animation: slideIn 0.25s ease both; }
+
+  /* ── HELPERS ── */
+  .w100 { width: 100%; }
+  .center { text-align: center; }
+  .mt8 { margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ── LOCATION BANNER ── -->
+<div class="location-banner">
+  <span class="loc-part">📚 <span class="loc-highlight">Cambridge Global English</span></span>
+  <span class="loc-sep">•</span>
+  <span class="loc-part">Grade 3 ESL</span>
+  <span class="loc-sep">•</span>
+  <span class="loc-part loc-highlight">7.2 Have you ever...?</span>
+  <span class="loc-sep">•</span>
+  <span class="loc-part">📖 Page 114</span>
+</div>
+
+<div class="deck">
+
+  <!-- ════════════════════════════════════
+       SLIDE 1 – Life Timeline
+  ════════════════════════════════════ -->
+  <div class="slide active" id="s1">
+    <div class="slide-header" style="background:rgba(0,0,0,0.25);">
+      <div class="slide-icon">📅</div>
+      <div>
+        <div class="slide-title">The Life Timeline</div>
+        <div class="slide-subtitle">What is the Present Perfect?</div>
+      </div>
+      <div class="slide-num">1</div>
+    </div>
+
+    <div class="slide-body" style="align-items:center;">
+      <div class="timeline-wrap" style="width:100%;max-width:860px;">
+        <div class="tl-label-row">
+          <div class="tl-label">⬅ Long ago<br><small style="color:rgba(255,255,255,0.45);font-size:12px;">Past</small></div>
+          <div class="tl-label">NOW ➡<br><small style="color:rgba(255,255,255,0.45);font-size:12px;">Today</small></div>
+        </div>
+        <div class="tl-bar">
+          <div class="tl-fill">
+            <div class="tl-dot start"></div>
+            <div class="tl-dot now"></div>
+            <span class="tl-now-label">🔴 TODAY</span>
+          </div>
+        </div>
+
+        <div class="big-cards" style="margin-top:8px;">
+          <div class="big-card">
+            <span class="emoji">🍕</span>
+            <div class="ctitle">You ate pizza</div>
+            <div class="csub">Before today</div>
+          </div>
+          <div class="big-card" style="border-color:rgba(253,216,53,0.5);background:rgba(253,216,53,0.12);">
+            <span class="emoji">🔗</span>
+            <div class="ctitle" style="color:#FDD835;">LINK!</div>
+            <div class="csub">Past → Now</div>
+          </div>
+          <div class="big-card">
+            <span class="emoji">📣</span>
+            <div class="ctitle">You tell us NOW</div>
+            <div class="csub">Your experience</div>
+          </div>
+        </div>
+
+        <div class="key-sentence">
+          <p>"I have eaten pizza!" 🍕</p>
+          <small>Past experience → connects to NOW → this is Present Perfect!</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SLIDE 2 – Magic Formula
+  ════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="slide-header">
+      <div class="slide-icon">✨</div>
+      <div>
+        <div class="slide-title">The Magic Formula</div>
+        <div class="slide-subtitle">How to build it — 3 parts!</div>
+      </div>
+      <div class="slide-num">2</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="formula-row">
+        <div class="fbox sub">
+          <div class="ftop">I / She / They</div>
+          <div class="fbot">👤 SUBJECT</div>
+        </div>
+        <div class="plus">+</div>
+        <div class="fbox have">
+          <div class="ftop">have / has</div>
+          <div class="fbot">🔑 HELPER VERB</div>
+        </div>
+        <div class="plus">+</div>
+        <div class="fbox verb">
+          <div class="ftop">play<span style="color:#4CAF50;font-size:0.9em;">ed</span></div>
+          <div class="fbot">📝 VERB + ED</div>
+        </div>
+      </div>
+
+      <div class="examples-grid">
+        <div class="ex-box aff">
+          <div class="ex-tag">✅ AFFIRMATIVE (YES)</div>
+          <div class="ex-sent">I <span style="color:#A5D6A7;">have</span> <span style="color:#C8E6C9;">visited</span> Paris.</div>
+        </div>
+        <div class="ex-box neg">
+          <div class="ex-tag">❌ NEGATIVE (NO)</div>
+          <div class="ex-sent">She <span style="color:#EF9A9A;">has not</span> <span style="color:#FFCDD2;">cooked</span> before.</div>
+        </div>
+        <div class="ex-box qst">
+          <div class="ex-tag">❓ QUESTION (ASK)</div>
+          <div class="ex-sent"><span style="color:#90CAF9;">Have</span> you <span style="color:#BBDEFB;">played</span> football?</div>
+        </div>
+        <div class="ex-box" style="border-color:#CE93D8;">
+          <div class="ex-tag" style="color:#CE93D8;">💡 SHORT FORMS</div>
+          <div class="ex-sent" style="font-size:clamp(13px,1.6vw,17px);">
+            <span style="color:#CE93D8;">haven't</span> = have not &nbsp;|&nbsp; <span style="color:#CE93D8;">hasn't</span> = has not
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-strip">
+        <span class="ti">💡</span>
+        <p>The verb always gets <strong>-ED</strong> added! &nbsp;play → play<strong>ed</strong> &nbsp;|&nbsp; cook → cook<strong>ed</strong> &nbsp;|&nbsp; walk → walk<strong>ed</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SLIDE 3 – Have vs Has Table
+  ════════════════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="slide-header">
+      <div class="slide-icon">📊</div>
+      <div>
+        <div class="slide-title">HAVE vs HAS</div>
+        <div class="slide-subtitle">Which helper verb do we use?</div>
+      </div>
+      <div class="slide-num">3</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="hh-grid">
+        <div class="hh-col have-col">
+          <div class="hh-head">HAVE</div>
+          <div class="pronoun-btn"><span class="pemo">👤</span> I</div>
+          <div class="pronoun-btn"><span class="pemo">👫</span> YOU</div>
+          <div class="pronoun-btn"><span class="pemo">👥</span> WE</div>
+          <div class="pronoun-btn"><span class="pemo">👨‍👩‍👧</span> THEY</div>
+        </div>
+
+        <div class="vs-center">
+          <div class="vs-badge">VS</div>
+        </div>
+
+        <div class="hh-col has-col">
+          <div class="hh-head">HAS</div>
+          <div class="pronoun-btn"><span class="pemo">👦</span> HE</div>
+          <div class="pronoun-btn"><span class="pemo">👧</span> SHE</div>
+          <div class="pronoun-btn"><span class="pemo">🐶</span> IT</div>
+        </div>
+      </div>
+
+      <div class="hh-examples">
+        <div class="hh-ex ye">
+          <div class="hl">✅ HAVE examples</div>
+          <div class="hs" style="margin-bottom:6px;">I <span style="color:#FDD835;">have</span> walked to school.</div>
+          <div class="hs">We <span style="color:#FDD835;">have</span> watched the film.</div>
+        </div>
+        <div class="hh-ex re">
+          <div class="hl">✅ HAS examples</div>
+          <div class="hs" style="margin-bottom:6px;">She <span style="color:#EF5350;">has</span> cooked dinner.</div>
+          <div class="hs">He <span style="color:#EF5350;">has</span> visited London.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SLIDE 4 – Verb Gallery
+  ════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="slide-header">
+      <div class="slide-icon">🔄</div>
+      <div>
+        <div class="slide-title">Regular Verb Gallery</div>
+        <div class="slide-subtitle">Base Verb → Past Participle (add -ED)</div>
+      </div>
+      <div class="slide-num">4</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="verb-gallery">
+        <div class="verb-card">
+          <span class="vemo">⚽</span>
+          <span class="vbase">play</span>
+          <span class="varrow">▼</span>
+          <span class="ved">play<b>ed</b></span>
+          <span class="vrule">+ ed</span>
+        </div>
+        <div class="verb-card">
+          <span class="vemo">✈️</span>
+          <span class="vbase">visit</span>
+          <span class="varrow">▼</span>
+          <span class="ved">visit<b>ed</b></span>
+          <span class="vrule">+ ed</span>
+        </div>
+        <div class="verb-card">
+          <span class="vemo">🍳</span>
+          <span class="vbase">cook</span>
+          <span class="varrow">▼</span>
+          <span class="ved">cook<b>ed</b></span>
+          <span class="vrule">+ ed</span>
+        </div>
+        <div class="verb-card">
+          <span class="vemo">🚶</span>
+          <span class="vbase">walk</span>
+          <span class="varrow">▼</span>
+          <span class="ved">walk<b>ed</b></span>
+          <span class="vrule">+ ed</span>
+        </div>
+        <div class="verb-card">
+          <span class="vemo">📺</span>
+          <span class="vbase">watch</span>
+          <span class="varrow">▼</span>
+          <span class="ved">watch<b>ed</b></span>
+          <span class="vrule">+ ed</span>
+        </div>
+      </div>
+
+      <div class="rule-boxes">
+        <div class="rule-box r1">
+          <div class="rb-rule">📘 Most verbs — just add ED</div>
+          <div class="rb-ex">play → played &nbsp;|&nbsp; cook → cooked</div>
+        </div>
+        <div class="rule-box r2">
+          <div class="rb-rule">📗 Verb ends in E — add just D</div>
+          <div class="rb-ex">like → liked &nbsp;|&nbsp; dance → danced</div>
+        </div>
+        <div class="rule-box r3">
+          <div class="rb-rule">📙 Short + consonant — double it!</div>
+          <div class="rb-ex">stop → stopped &nbsp;|&nbsp; hop → hopped</div>
+        </div>
+      </div>
+
+      <div class="tip-strip">
+        <span class="ti">⭐</span>
+        <p>These are <strong>REGULAR verbs</strong> — they always follow the rules! Irregular verbs are different (we learn those later 😊)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SLIDE 5 – Question Formation
+  ════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="slide-header">
+      <div class="slide-icon">🙋</div>
+      <div>
+        <div class="slide-title">"Have you ever...?"</div>
+        <div class="slide-subtitle">Asking questions + short answers</div>
+      </div>
+      <div class="slide-num">5</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="q-formula">
+        <div class="qf-box q1">
+          <div class="qfbig">Have / Has</div>
+          <div class="qfsm">HELPER VERB first!</div>
+        </div>
+        <div class="q-plus">+</div>
+        <div class="qf-box q2">
+          <div class="qfbig">you / she / he</div>
+          <div class="qfsm">SUBJECT</div>
+        </div>
+        <div class="q-plus">+</div>
+        <div class="qf-box q3">
+          <div class="qfbig">ever</div>
+          <div class="qfsm">(= in your life)</div>
+        </div>
+        <div class="q-plus">+</div>
+        <div class="qf-box q4">
+          <div class="qfbig">verb-ed</div>
+          <div class="qfsm">PAST PARTICIPLE</div>
+        </div>
+        <div class="q-plus">+</div>
+        <div class="qf-box q5">
+          <div class="qfbig">…?</div>
+          <div class="qfsm">QUESTION MARK</div>
+        </div>
+      </div>
+
+      <div class="answer-cards">
+        <div class="ans-card yes">
+          <div class="tick">✅</div>
+          <div class="atxt">
+            <div class="al">POSITIVE ANSWER</div>
+            <div class="as">Yes, I <span style="color:#A5D6A7;">have</span>.</div>
+            <div style="font-size:clamp(12px,1.3vw,14px);color:rgba(255,255,255,0.6);margin-top:4px;font-weight:700;">Yes, he/she <span style="color:#A5D6A7;">has</span>.</div>
+          </div>
+        </div>
+        <div class="ans-card no">
+          <div class="tick">❌</div>
+          <div class="atxt">
+            <div class="al">NEGATIVE ANSWER</div>
+            <div class="as">No, I <span style="color:#EF9A9A;">haven't</span>.</div>
+            <div style="font-size:clamp(12px,1.3vw,14px);color:rgba(255,255,255,0.6);margin-top:4px;font-weight:700;">No, he/she <span style="color:#EF9A9A;">hasn't</span>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="q-examples">
+        <div class="q-ex">
+          <div class="qe-q">❓ Have you ever played tennis?</div>
+          <div class="qe-a" style="color:#A5D6A7;">Yes, I have. ✅</div>
+        </div>
+        <div class="q-ex">
+          <div class="qe-q">❓ Has she ever visited Japan?</div>
+          <div class="qe-a" style="color:#EF9A9A;">No, she hasn't. ❌</div>
+        </div>
+        <div class="q-ex">
+          <div class="qe-q">❓ Have they ever cooked pizza?</div>
+          <div class="qe-a" style="color:#A5D6A7;">Yes, they have. ✅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SLIDE 6 – Practice Zone
+  ════════════════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="slide-header">
+      <div class="slide-icon">🎯</div>
+      <div>
+        <div class="slide-title">Practice Zone!</div>
+        <div class="slide-subtitle">👆 TAP the yellow box to see the answer!</div>
+      </div>
+      <div class="slide-num">6</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="practice-grid">
+
+        <!-- Box 1 -->
+        <div class="pbox" id="pb1" onclick="revealAnswer('pb1')">
+          <div class="pbox-num">📝 Question 1 — Fill in the blank</div>
+          <div class="pbox-q">She <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> walked to school today.</div>
+          <div class="reveal-zone hidden-ans" id="rz1">
+            <span class="tap-icon">👆</span>
+            <span class="tap-hint">TAP HERE to see the answer!</span>
+          </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="pbox" id="pb2" onclick="revealAnswer('pb2')">
+          <div class="pbox-num">📝 Question 2 — Choose: HAVE or HAS</div>
+          <div class="pbox-q">They <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> watched the movie.</div>
+          <div class="reveal-zone hidden-ans" id="rz2">
+            <span class="tap-icon">👆</span>
+            <span class="tap-hint">TAP HERE to see the answer!</span>
+          </div>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="pbox" id="pb3" onclick="revealAnswer('pb3')">
+          <div class="pbox-num">📝 Question 3 — Make it negative</div>
+          <div class="pbox-q">I <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> visited France.</div>
+          <div class="reveal-zone hidden-ans" id="rz3">
+            <span class="tap-icon">👆</span>
+            <span class="tap-hint">TAP HERE to see the answer!</span>
+          </div>
+        </div>
+
+        <!-- Box 4 -->
+        <div class="pbox" id="pb4" onclick="revealAnswer('pb4')">
+          <div class="pbox-num">📝 Question 4 — Write a question</div>
+          <div class="pbox-q">Ask about HE + "cook" + ever</div>
+          <div class="reveal-zone hidden-ans" id="rz4">
+            <span class="tap-icon">👆</span>
+            <span class="tap-hint">TAP HERE to see the answer!</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SLIDE 7 – TAP THE RIGHT WORD
+  ════════════════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="slide-header">
+      <div class="slide-icon">⚡</div>
+      <div>
+        <div class="slide-title">Tap the Right Word!</div>
+        <div class="slide-subtitle">Choose the correct answer to complete each sentence</div>
+      </div>
+      <div class="slide-num">7</div>
+    </div>
+
+    <div class="slide-body" style="align-items:center;">
+      <div class="challenge-wrap" id="challengeWrap">
+
+        <!-- Progress dots -->
+        <div class="challenge-progress" id="challengeDots"></div>
+
+        <!-- Question card -->
+        <div class="challenge-card" id="challengeCard">
+          <div class="challenge-emoji" id="cEmoji">⚽</div>
+          <div class="challenge-q" id="cQuestion">Loading...</div>
+          <div class="challenge-feedback" id="cFeedback"></div>
+        </div>
+
+        <!-- Option buttons -->
+        <div class="options-row" id="optionsRow"></div>
+
+        <!-- Next button -->
+        <button class="challenge-next" id="nextChallengeBtn" onclick="nextChallenge()">Next →</button>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.deck -->
+
+<!-- ── NAVIGATION BAR ── -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+
+  <div class="nav-dots" id="navDots"></div>
+
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  const TOTAL = 7;
+  let current = 0;
+
+  /* ── SLIDE 6 REVEAL ANSWERS ── */
+  const answers = {
+    rz1: { label: '✅ Answer', text: 'She HAS walked to school today.' },
+    rz2: { label: '✅ Answer', text: 'They HAVE watched the movie.' },
+    rz3: { label: '✅ Answer', text: 'I HAVE NOT (haven\'t) visited France.' },
+    rz4: { label: '✅ Answer', text: 'Has he ever cooked?' }
+  };
+
+  function revealAnswer(pbId) {
+    const rzId = pbId.replace('pb','rz');
+    const rz = document.getElementById(rzId);
+    const pb = document.getElementById(pbId);
+    if (!rz || pb.classList.contains('revealed')) return;
+    const data = answers[rzId];
+    rz.className = 'reveal-zone show-ans';
+    rz.innerHTML = '<span class="ans-label">' + data.label + '</span><span class="ans-text">' + data.text + '</span>';
+    pb.classList.add('revealed');
+  }
+
+  /* ── NAV ── */
+  function buildDots() {
+    const dots = document.getElementById('navDots');
+    for (let i = 0; i < TOTAL; i++) {
+      const wrap = document.createElement('div');
+      wrap.className = 'nav-dot-wrap' + (i === 0 ? ' active' : '');
+      wrap.setAttribute('aria-label', 'Slide ' + (i+1));
+      wrap.setAttribute('role', 'button');
+      wrap.setAttribute('tabindex', '0');
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot';
+      wrap.appendChild(dot);
+      wrap.addEventListener('click', () => goTo(i));
+      dots.appendChild(wrap);
+    }
+  }
+
+  function goTo(idx) {
+    const slides = document.querySelectorAll('.slide');
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.nav-dot-wrap').forEach((d,i) => d.classList.toggle('active', i === current));
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === TOTAL - 1;
+    if (idx === 6) initChallenge();
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < TOTAL) goTo(next);
+  }
+
+  /* ── SWIPE ── */
+  let touchStartX = 0, touchStartY = 0;
+  const SWIPE_THRESHOLD = 60;
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      changeSlide(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  buildDots();
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+
+  /* ══════════════════════════════
+     SLIDE 7 – TAP CHALLENGE
+  ══════════════════════════════ */
+  const questions = [
+    {
+      emoji: '⚽',
+      q: 'She ___ played football before.',
+      options: ['have', 'has', 'had'],
+      correct: 1,
+      feedback: '✅ "She" → use HAS!',
+      feedbackWrong: '❌ "She" needs HAS!'
+    },
+    {
+      emoji: '✈️',
+      q: 'Have you ever ___ Paris?',
+      options: ['visit', 'visits', 'visited'],
+      correct: 2,
+      feedback: '✅ Add -ED to the verb!',
+      feedbackWrong: '❌ We need the -ED form!'
+    },
+    {
+      emoji: '🍕',
+      q: 'They ___ cooked pizza together.',
+      options: ['has', 'have', 'is'],
+      correct: 1,
+      feedback: '✅ "They" → use HAVE!',
+      feedbackWrong: '❌ "They" needs HAVE!'
+    },
+    {
+      emoji: '🐶',
+      q: '___ he ever walked to school?',
+      options: ['Have', 'Has', 'Did'],
+      correct: 1,
+      feedback: '✅ "He" → use HAS in questions!',
+      feedbackWrong: '❌ "He" needs HAS here!'
+    },
+    {
+      emoji: '📺',
+      q: 'I have ___ this film before.',
+      options: ['watch', 'watched', 'watching'],
+      correct: 1,
+      feedback: '✅ watch + ED = watched!',
+      feedbackWrong: '❌ Remember to add -ED!'
+    },
+    {
+      emoji: '🚶',
+      q: 'She ___ walked to the park.',
+      options: ['haven\'t', 'hasn\'t', 'didn\'t'],
+      correct: 1,
+      feedback: '✅ "She" → hasn\'t (has not)!',
+      feedbackWrong: '❌ "She" needs hasn\'t!'
+    }
+  ];
+
+  let cIdx = 0;
+  let cScore = 0;
+  let cAnswered = false;
+  let cResults = [];
+
+  function initChallenge() {
+    cIdx = 0; cScore = 0; cAnswered = false; cResults = [];
+    document.getElementById('nextChallengeBtn').style.display = 'none';
+    renderChallenge();
+  }
+
+  function renderChallenge() {
+    const wrap = document.getElementById('challengeWrap');
+
+    if (cIdx >= questions.length) {
+      showScore();
+      return;
+    }
+
+    const q = questions[cIdx];
+
+    // Progress dots
+    const dotsEl = document.getElementById('challengeDots');
+    dotsEl.innerHTML = '';
+    questions.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'cp-dot';
+      if (i < cIdx) d.classList.add(cResults[i] ? 'done' : 'wrong');
+      else if (i === cIdx) d.classList.add('curr');
+      dotsEl.appendChild(d);
+    });
+
+    // Question
+    document.getElementById('cEmoji').textContent = q.emoji;
+    document.getElementById('cQuestion').innerHTML = q.q.replace('___', '<span class="gap">___</span>');
+    document.getElementById('cFeedback').textContent = '';
+    document.getElementById('cFeedback').style.color = '';
+
+    // Options
+    const row = document.getElementById('optionsRow');
+    row.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => pickAnswer(i));
+      row.appendChild(btn);
+    });
+
+    cAnswered = false;
+    document.getElementById('nextChallengeBtn').style.display = 'none';
+  }
+
+  function pickAnswer(chosen) {
+    if (cAnswered) return;
+    cAnswered = true;
+
+    const q = questions[cIdx];
+    const correct = chosen === q.correct;
+    cResults.push(correct);
+    if (correct) cScore++;
+
+    const btns = document.querySelectorAll('.opt-btn');
+    btns.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === q.correct) btn.classList.add('correct');
+      else if (i === chosen && !correct) btn.classList.add('wrong');
+    });
+
+    const fb = document.getElementById('cFeedback');
+    fb.textContent = correct ? q.feedback : q.feedbackWrong;
+    fb.style.color = correct ? '#A5D6A7' : '#EF9A9A';
+
+    document.getElementById('nextChallengeBtn').style.display = 'inline-block';
+  }
+
+  function nextChallenge() {
+    cIdx++;
+    renderChallenge();
+  }
+
+  function showScore() {
+    const wrap = document.getElementById('challengeWrap');
+    const pct = Math.round((cScore / questions.length) * 100);
+    const stars = pct === 100 ? '🌟🌟🌟' : pct >= 66 ? '⭐⭐' : '⭐';
+    wrap.innerHTML = `
+      <div style="font-size:clamp(60px,9vw,100px);line-height:1;">${stars}</div>
+      <div class="challenge-score">${cScore} / ${questions.length} correct!</div>
+      <div class="challenge-score-sub">${
+        pct === 100 ? 'Perfect! You\'re a Present Perfect pro! 🎉' :
+        pct >= 66  ? 'Great job! Keep practising! 💪' :
+                    'Good try! Let\'s review and try again! 📚'
+      }</div>
+      <button class="replay-btn" onclick="initChallenge()">🔄 Play Again</button>
+    `;
+  }
+</script>
+</body>
+</html>
